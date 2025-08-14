@@ -2,22 +2,13 @@
     "name": "InputSystem",
     "maps": [
         {
-            "name": "PhoneActionMap",
+            "name": "BaseActionMap",
             "id": "e364b1a7-f391-4da4-a464-28396b88f140",
             "actions": [
                 {
-                    "name": "Aim",
-                    "type": "Value",
-                    "id": "f9f61a57-6675-47f5-8353-5898785b6671",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "ShootButton",
+                    "name": "LoadingAttack",
                     "type": "Button",
-                    "id": "bd12486e-841c-42f7-ad86-be2c0a70dafb",
+                    "id": "59409ab5-928d-4942-9bc0-61afbc7a5430",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -27,28 +18,62 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "94b4a6d1-2e0c-45ca-a41c-4281aee4b310",
-                    "path": "<Touchscreen>/delta",
+                    "id": "14678860-de58-49c6-ac03-121d6ab8f4d5",
+                    "path": "<Touchscreen>/Press",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Aim",
+                    "groups": "Mobile",
+                    "action": "LoadingAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "7de94c47-a9b2-4485-9de0-7761136f9300",
-                    "path": "<Gamepad>/rightTrigger",
+                    "id": "01359f3b-ccdb-4800-b791-9741a7867ee3",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "ShootButton",
+                    "groups": "PC",
+                    "action": "LoadingAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dcd71948-a37f-4134-84e6-2fbf066bc1dd",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "LoadingAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
             ]
         }
     ],
-    "controlSchemes": []
+    "controlSchemes": [
+        {
+            "name": "PC",
+            "bindingGroup": "PC",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Mobile",
+            "bindingGroup": "Mobile",
+            "devices": [
+                {
+                    "devicePath": "<Touchscreen>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
 }

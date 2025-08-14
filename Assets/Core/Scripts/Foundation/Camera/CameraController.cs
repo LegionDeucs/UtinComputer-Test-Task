@@ -20,6 +20,9 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
+        if (target == null)
+            return;
+
         transform.position = Vector3.Lerp(transform.position, target.position, moveLerpStrength * Time.deltaTime);
     }
 }

@@ -12,13 +12,8 @@ public class LevelSceneInstaller : MonoInstaller
     {
         Container.BindInterfacesAndSelfTo<GameplayContext>().FromInstance(gameplayContext).AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<GameplayStateMachine>().AsSingle().NonLazy();
+        Container.Bind<ColliderProvider>().FromNewComponentOnNewGameObject().WithGameObjectName(nameof(ColliderProvider)).AsSingle().NonLazy();
 
-        InstallInputSystem();
     }
 
-    private void InstallInputSystem()
-    {
-        Container.Bind<InputSystemProcessorContext>().AsSingle().NonLazy();
-        Container.Bind<InputSystemProcessor>().AsSingle().NonLazy();
-    }
 }

@@ -24,22 +24,13 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     ""name"": ""InputSystem"",
     ""maps"": [
         {
-            ""name"": ""PhoneActionMap"",
+            ""name"": ""BaseActionMap"",
             ""id"": ""e364b1a7-f391-4da4-a464-28396b88f140"",
             ""actions"": [
                 {
-                    ""name"": ""Aim"",
-                    ""type"": ""Value"",
-                    ""id"": ""f9f61a57-6675-47f5-8353-5898785b6671"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""ShootButton"",
+                    ""name"": ""LoadingAttack"",
                     ""type"": ""Button"",
-                    ""id"": ""bd12486e-841c-42f7-ad86-be2c0a70dafb"",
+                    ""id"": ""59409ab5-928d-4942-9bc0-61afbc7a5430"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -49,35 +40,68 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""94b4a6d1-2e0c-45ca-a41c-4281aee4b310"",
-                    ""path"": ""<Touchscreen>/delta"",
+                    ""id"": ""14678860-de58-49c6-ac03-121d6ab8f4d5"",
+                    ""path"": ""<Touchscreen>/Press"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Aim"",
+                    ""groups"": ""Mobile"",
+                    ""action"": ""LoadingAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""7de94c47-a9b2-4485-9de0-7761136f9300"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""id"": ""01359f3b-ccdb-4800-b791-9741a7867ee3"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ShootButton"",
+                    ""groups"": ""PC"",
+                    ""action"": ""LoadingAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dcd71948-a37f-4134-84e6-2fbf066bc1dd"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""LoadingAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""PC"",
+            ""bindingGroup"": ""PC"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Mobile"",
+            ""bindingGroup"": ""Mobile"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Touchscreen>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        }
+    ]
 }");
-        // PhoneActionMap
-        m_PhoneActionMap = asset.FindActionMap("PhoneActionMap", throwIfNotFound: true);
-        m_PhoneActionMap_Aim = m_PhoneActionMap.FindAction("Aim", throwIfNotFound: true);
-        m_PhoneActionMap_ShootButton = m_PhoneActionMap.FindAction("ShootButton", throwIfNotFound: true);
+        // BaseActionMap
+        m_BaseActionMap = asset.FindActionMap("BaseActionMap", throwIfNotFound: true);
+        m_BaseActionMap_LoadingAttack = m_BaseActionMap.FindAction("LoadingAttack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -136,62 +160,71 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // PhoneActionMap
-    private readonly InputActionMap m_PhoneActionMap;
-    private List<IPhoneActionMapActions> m_PhoneActionMapActionsCallbackInterfaces = new List<IPhoneActionMapActions>();
-    private readonly InputAction m_PhoneActionMap_Aim;
-    private readonly InputAction m_PhoneActionMap_ShootButton;
-    public struct PhoneActionMapActions
+    // BaseActionMap
+    private readonly InputActionMap m_BaseActionMap;
+    private List<IBaseActionMapActions> m_BaseActionMapActionsCallbackInterfaces = new List<IBaseActionMapActions>();
+    private readonly InputAction m_BaseActionMap_LoadingAttack;
+    public struct BaseActionMapActions
     {
         private @InputSystem m_Wrapper;
-        public PhoneActionMapActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Aim => m_Wrapper.m_PhoneActionMap_Aim;
-        public InputAction @ShootButton => m_Wrapper.m_PhoneActionMap_ShootButton;
-        public InputActionMap Get() { return m_Wrapper.m_PhoneActionMap; }
+        public BaseActionMapActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
+        public InputAction @LoadingAttack => m_Wrapper.m_BaseActionMap_LoadingAttack;
+        public InputActionMap Get() { return m_Wrapper.m_BaseActionMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PhoneActionMapActions set) { return set.Get(); }
-        public void AddCallbacks(IPhoneActionMapActions instance)
+        public static implicit operator InputActionMap(BaseActionMapActions set) { return set.Get(); }
+        public void AddCallbacks(IBaseActionMapActions instance)
         {
-            if (instance == null || m_Wrapper.m_PhoneActionMapActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_PhoneActionMapActionsCallbackInterfaces.Add(instance);
-            @Aim.started += instance.OnAim;
-            @Aim.performed += instance.OnAim;
-            @Aim.canceled += instance.OnAim;
-            @ShootButton.started += instance.OnShootButton;
-            @ShootButton.performed += instance.OnShootButton;
-            @ShootButton.canceled += instance.OnShootButton;
+            if (instance == null || m_Wrapper.m_BaseActionMapActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_BaseActionMapActionsCallbackInterfaces.Add(instance);
+            @LoadingAttack.started += instance.OnLoadingAttack;
+            @LoadingAttack.performed += instance.OnLoadingAttack;
+            @LoadingAttack.canceled += instance.OnLoadingAttack;
         }
 
-        private void UnregisterCallbacks(IPhoneActionMapActions instance)
+        private void UnregisterCallbacks(IBaseActionMapActions instance)
         {
-            @Aim.started -= instance.OnAim;
-            @Aim.performed -= instance.OnAim;
-            @Aim.canceled -= instance.OnAim;
-            @ShootButton.started -= instance.OnShootButton;
-            @ShootButton.performed -= instance.OnShootButton;
-            @ShootButton.canceled -= instance.OnShootButton;
+            @LoadingAttack.started -= instance.OnLoadingAttack;
+            @LoadingAttack.performed -= instance.OnLoadingAttack;
+            @LoadingAttack.canceled -= instance.OnLoadingAttack;
         }
 
-        public void RemoveCallbacks(IPhoneActionMapActions instance)
+        public void RemoveCallbacks(IBaseActionMapActions instance)
         {
-            if (m_Wrapper.m_PhoneActionMapActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_BaseActionMapActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IPhoneActionMapActions instance)
+        public void SetCallbacks(IBaseActionMapActions instance)
         {
-            foreach (var item in m_Wrapper.m_PhoneActionMapActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_BaseActionMapActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_PhoneActionMapActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_BaseActionMapActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public PhoneActionMapActions @PhoneActionMap => new PhoneActionMapActions(this);
-    public interface IPhoneActionMapActions
+    public BaseActionMapActions @BaseActionMap => new BaseActionMapActions(this);
+    private int m_PCSchemeIndex = -1;
+    public InputControlScheme PCScheme
     {
-        void OnAim(InputAction.CallbackContext context);
-        void OnShootButton(InputAction.CallbackContext context);
+        get
+        {
+            if (m_PCSchemeIndex == -1) m_PCSchemeIndex = asset.FindControlSchemeIndex("PC");
+            return asset.controlSchemes[m_PCSchemeIndex];
+        }
+    }
+    private int m_MobileSchemeIndex = -1;
+    public InputControlScheme MobileScheme
+    {
+        get
+        {
+            if (m_MobileSchemeIndex == -1) m_MobileSchemeIndex = asset.FindControlSchemeIndex("Mobile");
+            return asset.controlSchemes[m_MobileSchemeIndex];
+        }
+    }
+    public interface IBaseActionMapActions
+    {
+        void OnLoadingAttack(InputAction.CallbackContext context);
     }
 }
